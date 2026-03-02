@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; background: #F1F5F9; padding: 28px 16px; }
+h1 { text-align: center; color: #0F172A; font-size: 22px; margin-bottom: 4px; }
+.sub { text-align: center; color: #64748B; font-size: 12px; margin-bottom: 20px; }
+.legend { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #475569; }
+.dot { width: 11px; height: 11px; border-radius: 3px; }
+
+/* SCROLLABLE CHART */
+.chart { overflow-x: scroll; overflow-y: visible; padding-bottom: 30px; padding-top: 10px; cursor: grab; }
+.chart:active { cursor: grabbing; }
+
+.tree ul { display: flex; justify-content: center; padding-top: 20px; position: relative; list-style: none; }
+.tree ul::before { content: ''; position: absolute; top: 0; left: 50%; border-left: 2px solid #CBD5E1; height: 20px; }
+.tree li { display: flex; flex-direction: column; align-items: center; padding: 0 8px; position: relative; }
+.tree li::before, .tree li::after { content: ''; position: absolute; top: 0; border-top: 2px solid #CBD5E1; width: 50%; height: 20px; }
+.tree li::before { right: 50%; } .tree li::after { left: 50%; }
+.tree li:only-child::before, .tree li:only-child::after,
+.tree li:first-child::before, .tree li:last-child::after { display: none; }
+.conn { width: 2px; height: 20px; background: #CBD5E1; }
+.box { color: white; border-radius: 10px; padding: 9px 13px; min-width: 155px; max-width: 190px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.18); }
+.box .n { font-weight: 700; font-size: 12px; line-height: 1.3; }
+.box .r { font-size: 10px; opacity: 0.87; margin-top: 3px; line-height: 1.3; }
+
+/* Table */
+.tbl { background: white; border-radius: 14px; padding: 18px; max-width: 900px; margin: 32px auto 0; box-shadow: 0 1px 6px rgba(0,0,0,0.08); }
+.tbl h2 { font-size: 14px; color: #1E293B; margin-bottom: 10px; margin-top: 0; }
+table { width: 100%; border-collapse: collapse; font-size: 11px; }
+th { background: #F8FAFC; padding: 7px 10px; text-align: left; color: #475569; border-bottom: 2px solid #E2E8F0; font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
+td { padding: 6px 10px; color: #64748B; border-bottom: 1px solid #F1F5F9; vertical-align: top; }
+td:first-child { font-weight: 600; color: #1E293B; }
+tr:nth-child(even) td { background: #F8FAFC; }
+.note { font-size: 10px; color: #94A3B8; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<h1>Anthropic — Full Organization Chart</h1>
+<p class="sub">Scroll left & right to see full chart · Based on public information · March 2026</p>
+
+<div class="legend">
+  <div class="legend-item"><div class="dot" style="background:#6B21A8"></div>Executive</div>
+  <div class="legend-item"><div class="dot" style="background:#1D4ED8"></div>Legal & Counsel</div>
+  <div class="legend-item"><div class="dot" style="background:#B45309"></div>Commercial</div>
+  <div class="legend-item"><div class="dot" style="background:#0369A1"></div>GTM Onboarding</div>
+  <div class="legend-item"><div class="dot" style="background:#0891B2"></div>Customer Success</div>
+  <div class="legend-item"><div class="dot" style="background:#6D28D9"></div>GTM Ops</div>
+  <div class="legend-item"><div class="dot" style="background:#065F46"></div>Policy</div>
+  <div class="legend-item"><div class="dot" style="background:#9D174D"></div>Research</div>
+  <div class="legend-item"><div class="dot" style="background:#0F766E"></div>Security</div>
+</div>
+
+<div class="chart">
+<div style="min-width:2000px; padding: 10px 40px;">
+<div class="tree">
+<ul>
+ <li>
+  <div class="box" style="background:#6B21A8"><div class="n">Dario Amodei</div><div class="r">CEO & Co-Founder</div></div>
+  <ul>
+
+   <!-- ===== DANIELA ===== -->
+   <li>
+    <div class="conn"></div>
+    <div class="box" style="background:#7C3AED"><div class="n">Daniela Amodei</div><div class="r">President & Co-Founder</div></div>
+    <ul>
+
+     <!-- LEGAL -->
+     <li>
+      <div class="conn"></div>
+      <div class="box" style="background:#1D4ED8"><div class="n">Jeff Bleich</div><div class="r">General Counsel</div></div>
+      <ul>
+       <li><div class="conn"></div><div class="box" style="background:#2563EB"><div class="n">Commercial Counsel, GTM</div><div class="r">Enterprise deals · USA</div></div></li>
+       <li><div class="conn"></div><div class="box" style="background:#2563EB"><div class="n">Commercial Counsel, EMEA</div><div class="r">GTC & contracts · London 🇬🇧</div></div></li>
+       <li><div class="conn"></div><div class="box" style="background:#3B82F6"><div class="n">Employment Counsel</div><div class="r">HR Legal · USA</div></div></li>
+       <li><div class="conn"></div><div class="box" style="background:#3B82F6"><div class="n">Trade Compliance Counsel</div><div class="r">Sanctions & Export · USA</div></div></li>
+       <li><div class="conn"></div><div class="box" style="background:#3B82F6"><div class="n">Frontier Counsel</div><div class="r">Research & Compute · USA</div></div></li>
+       <li><div class="conn"></div><div class="box" style="background:#3B82F6"><div class="n">Litigation & Regulatory</div><div class="r">Disputes · USA</div></div></li>
+       <li><div class="conn"></div><div class="box" style="background:#3B82F6"><div class="n">Corporate Counsel, M&A</div><div class="r">Acquisitions & JVs · USA</div></div></li>
+      </ul>
+     </li>
+
+     <!-- CISO -->
+     <li>
+      <div class="conn"></div>
+      <div class="box" style="background:#0F766E"><div class="n">Jason Clinton</div><div class="r">CISO</div></div>
+     </li>
+
+     <!-- OPERATIONS -->
+     <li>
+      <div class="conn"></div>
+      <div class="box" style="background:#7C3AED"><div class="n">People & Finance</div><div class="r">Operations</div></div>
+      <ul>
+       <li><div class="conn"></div><div class="box" style="background:#8B5CF6"><div class="n">HR / Recruiting</div><div class="r">People Team</div></div></li>
+       <li><div class="conn"></div><div class="box" style="background:#8B5CF6"><div class="n">Finance</div><div class="r">Finance Team</div></div></li>
+      </ul>
+     </li>
+
+    </ul>
+   </li>
+
+   <!-- ===== PAUL SMITH (CCO) ===== -->
+   <li>
+    <div class="conn"></div>
+    <div class="box" style="background:#B45309"><div class="n">Paul Smith</div><div class="r">Chief Commercial Officer</div></div>
+    <ul>
+
+     <!-- GTM ONBOARDING -->
+     <li>
+      <div class="conn"></div>
+      <div class="box" style="background:#0369A1"><div class="n">Head of Intl Productivity</div><div class="r">GTM Enablement · London/Dublin</div></div>
+      <ul>
+       <li>
+        <div class="conn"></div>
+        <div class="box" style="background:#0284C7"><div class="n">Intl GTM Onboarding Lead</div><div class="r">Regional onboarding · London/EMEA 🇬🇧</div></div>
+        <ul>
+         <li><div class="conn"></div><div class="box" style="background:#38BDF8"><div class="n">Regional Onboarding Specialist</div><div class="r">Future hire · EMEA markets</div></div></li>
+         <li><div class="conn"></div><div class="box" style="background:#38BDF8"><div class="n">APAC Onboarding Lead</div><div class="r">Future hire · APAC markets</div></div></li>
+         <li><div class="conn"></div><div class="box" style="background:#38BDF8"><div class="n">Onboarding Content Manager</div><div class="r">Future hire · Training materials</div></div></li>
+        </ul>
+       </li>
+       <li><div class="conn"></div><div class="box" style="background:#0284C7"><div class="n">GTM Enablement Onboarding PM</div><div class="r">Global seller ramp · SF 🇺🇸</div></div></li>
+      </ul>
+     </li>
+
+     <!-- CUSTOMER SUCCESS -->
+     <li>
+      <div class="conn"></div>
+      <div class="box" style="background:#0891B2"><div class="n">Customer Success Leadership</div><div class="r">VP / Head of Customer Success</div></div>
+      <ul>
+       <li><div class="conn"></div><div class="box" style="background:#06B6D4"><div class="n">Customer Success Manager (CSM)</div><div class="r">Lifecycle, QBRs, expansion · SF/NYC</div></div></li>
+       <li><div class="conn"></div><div class="box" style="background:#06B6D4"><div class="n">Technical Success Manager (TSM)</div><div class="r">API & Claude Code · SF/NYC</div></div></li>
+       <li><div class="conn"></div><div class="box" style="background:#6D28D9"><div class="n">GTM Strategy & Ops, CS</div><div class="r">Health scoring, renewals · SF/NYC</div></div></li>
+      </ul>
+     </li>
+
+     <!-- SALES -->
+     <li>
+      <div class="conn"></div>
+      <div class="box" style="background:#D97706"><div class="n">Sales (AE / AAI)</div><div class="r">Enterprise Pre-Sales · Global</div></div>
+      <ul>
+       <li>
+        <div class="conn"></div>
+        <div class="box" style="background:#D97706"><div class="n">Guillaume Princen</div><div class="r">Head of EMEA · London 🇬🇧</div></div>
+        <ul>
+         <li><div class="conn"></div><div class="box" style="background:#F59E0B"><div class="n">Chris Ciauri</div><div class="r">MD, International</div></div></li>
+        </ul>
+       </li>
+       <li><div class="conn"></div><div class="box" style="background:#D97706"><div class="n">Kate Jensen</div><div class="r">Head of Americas · USA 🇺🇸</div></div></li>
+       <li><div class="conn"></div><div class="box" style="background:#D97706"><div class="n">Hidetoshi Tojo</div><div class="r">Head of Japan · Japan 🇯🇵</div></div></li>
+      </ul>
+     </li>
+
+    </ul>
+   </li>
+
+   <!-- ===== JACK CLARK ===== -->
+   <li>
+    <div class="conn"></div>
+    <div class="box" style="background:#065F46"><div class="n">Jack Clark</div><div class="r">Co-Founder, Policy & Strategy</div></div>
+    <ul>
+     <li><div class="conn"></div><div class="box" style="background:#059669"><div class="n">Global Affairs</div><div class="r">Policy Team</div></div></li>
+    </ul>
+   </li>
+
+   <!-- ===== RESEARCH ===== -->
+   <li>
+    <div class="conn"></div>
+    <div class="box" style="background:#9D174D"><div class="n">Tom Brown & Sam McCandlish</div><div class="r">Co-Founders, Research</div></div>
+    <ul>
+     <li><div class="conn"></div><div class="box" style="background:#DB2777"><div class="n">Interpretability Team</div><div class="r">AI Safety Research</div></div></li>
+     <li><div class="conn"></div><div class="box" style="background:#DB2777"><div class="n">RL & Training</div><div class="r">AI Research</div></div></li>
+    </ul>
+   </li>
+
+  </ul>
+ </li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- SCROLL HINT -->
+<p style="text-align:center;font-size:11px;color:#94A3B8;margin-top:8px;">👈 Scroll left and right inside the chart above to see all branches 👉</p>
+
+<!-- TABLE -->
+<div class="tbl">
+  <h2>📋 GTM Onboarding · CSM · Contract Counsel — Role Summary</h2>
+  <table>
+    <thead>
+      <tr><th>Role</th><th>Location</th><th>Reports To</th><th>Key Focus</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Intl GTM Onboarding Lead</td><td>London / Dublin 🇬🇧</td><td>Head of Intl Productivity</td><td>Regional onboarding, EMEA & APAC localisation</td></tr>
+      <tr><td>Regional Onboarding Specialist</td><td>EMEA (future) 🇬🇧</td><td>Intl GTM Onboarding Lead</td><td>Per-market onboarding delivery</td></tr>
+      <tr><td>APAC Onboarding Lead</td><td>APAC (future) 🌏</td><td>Intl GTM Onboarding Lead</td><td>Asia-Pacific market onboarding</td></tr>
+      <tr><td>Onboarding Content Manager</td><td>EMEA (future) 🇬🇧</td><td>Intl GTM Onboarding Lead</td><td>Localised training materials & playbooks</td></tr>
+      <tr><td>GTM Enablement Onboarding PM</td><td>San Francisco 🇺🇸</td><td>Head of Intl Productivity</td><td>Global seller ramp & onboarding programs</td></tr>
+      <tr><td>Customer Success Manager (CSM)</td><td>SF / NYC 🇺🇸</td><td>Head of Customer Success</td><td>Enterprise lifecycle, QBRs, adoption, expansion</td></tr>
+      <tr><td>Technical Success Manager (TSM)</td><td>SF / NYC 🇺🇸</td><td>Head of Customer Success</td><td>API & Claude Code technical onboarding</td></tr>
+      <tr><td>GTM Strategy & Ops, CS</td><td>SF / NYC 🇺🇸</td><td>Customer Success Leadership</td><td>Health scoring, renewal forecasting, CS playbooks</td></tr>
+      <tr><td>Commercial Counsel, GTM</td><td>SF / NYC 🇺🇸</td><td>General Counsel (Jeff Bleich)</td><td>Enterprise agreements, partnerships, procurement</td></tr>
+      <tr><td>Commercial Counsel, EMEA</td><td>London 🇬🇧</td><td>General Counsel (Jeff Bleich)</td><td>GTC negotiation, EMEA contracts, AI regulation</td></tr>
+    </tbody>
+  </table>
+  <p class="note">⚠️ Rows marked "future" are projected hires based on Anthropic's growth trajectory — not confirmed public roles. Check <strong>anthropic.com/careers</strong> for current openings.</p>
+</div>
+
+<script>
+// Make chart drag-scrollable with mouse
+const chart = document.querySelector('.chart');
+let isDown = false, startX, scrollLeft;
+chart.addEventListener('mousedown', e => { isDown = true; startX = e.pageX - chart.offsetLeft; scrollLeft = chart.scrollLeft; });
+chart.addEventListener('mouseleave', () => isDown = false);
+chart.addEventListener('mouseup', () => isDown = false);
+chart.addEventListener('mousemove', e => {
+  if (!isDown) return;
+  e.preventDefault();
+  const x = e.pageX - chart.offsetLeft;
+  chart.scrollLeft = scrollLeft - (x - startX) * 1.5;
+});
+</script>
+
+</body>
+</html>

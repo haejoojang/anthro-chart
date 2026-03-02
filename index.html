@@ -2,33 +2,88 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: system-ui, sans-serif; background: #F1F5F9; padding: 28px 16px; }
+body { font-family: system-ui, sans-serif; background: #F1F5F9; padding: 20px 0; }
 h1 { text-align: center; color: #0F172A; font-size: 22px; margin-bottom: 4px; }
-.sub { text-align: center; color: #64748B; font-size: 12px; margin-bottom: 20px; }
-.legend { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px; }
-.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #475569; }
-.dot { width: 11px; height: 11px; border-radius: 3px; }
+.sub { text-align: center; color: #64748B; font-size: 12px; margin-bottom: 16px; }
+.legend { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; padding: 0 16px; }
+.legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: #475569; }
+.dot { width: 10px; height: 10px; border-radius: 3px; }
 
-/* SCROLLABLE CHART */
-.chart { overflow-x: scroll; overflow-y: visible; padding-bottom: 30px; padding-top: 10px; cursor: grab; }
-.chart:active { cursor: grabbing; }
+/* SCROLL CONTAINER */
+.scroll-hint { text-align: center; font-size: 11px; color: #94A3B8; margin-bottom: 8px; }
+.chart-outer {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+  padding: 20px 0 30px 0;
+  cursor: grab;
+}
+.chart-outer:active { cursor: grabbing; }
+.chart-inner {
+  display: inline-block;
+  min-width: max-content;
+  padding: 0 80px;
+}
 
-.tree ul { display: flex; justify-content: center; padding-top: 20px; position: relative; list-style: none; }
-.tree ul::before { content: ''; position: absolute; top: 0; left: 50%; border-left: 2px solid #CBD5E1; height: 20px; }
-.tree li { display: flex; flex-direction: column; align-items: center; padding: 0 8px; position: relative; }
-.tree li::before, .tree li::after { content: ''; position: absolute; top: 0; border-top: 2px solid #CBD5E1; width: 50%; height: 20px; }
-.tree li::before { right: 50%; } .tree li::after { left: 50%; }
-.tree li:only-child::before, .tree li:only-child::after,
-.tree li:first-child::before, .tree li:last-child::after { display: none; }
+/* TREE STRUCTURE */
+.tree ul {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  position: relative;
+  list-style: none;
+}
+.tree ul::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  border-left: 2px solid #CBD5E1;
+  height: 20px;
+}
+.tree li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 10px;
+  position: relative;
+}
+.tree li::before, .tree li::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  border-top: 2px solid #CBD5E1;
+  width: 50%;
+  height: 20px;
+}
+.tree li::before { right: 50%; }
+.tree li::after  { left:  50%; }
+.tree li:only-child::before,
+.tree li:only-child::after,
+.tree li:first-child::before,
+.tree li:last-child::after { display: none; }
+
 .conn { width: 2px; height: 20px; background: #CBD5E1; }
-.box { color: white; border-radius: 10px; padding: 9px 13px; min-width: 155px; max-width: 190px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.18); }
+
+.box {
+  color: white;
+  border-radius: 10px;
+  padding: 9px 13px;
+  min-width: 160px;
+  max-width: 195px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  white-space: normal;
+}
 .box .n { font-weight: 700; font-size: 12px; line-height: 1.3; }
 .box .r { font-size: 10px; opacity: 0.87; margin-top: 3px; line-height: 1.3; }
 
-/* Table */
-.tbl { background: white; border-radius: 14px; padding: 18px; max-width: 900px; margin: 32px auto 0; box-shadow: 0 1px 6px rgba(0,0,0,0.08); }
+/* TABLE */
+.tbl { background: white; border-radius: 14px; padding: 18px; max-width: 900px; margin: 28px auto; box-shadow: 0 1px 6px rgba(0,0,0,0.08); }
 .tbl h2 { font-size: 14px; color: #1E293B; margin-bottom: 10px; margin-top: 0; }
 table { width: 100%; border-collapse: collapse; font-size: 11px; }
 th { background: #F8FAFC; padding: 7px 10px; text-align: left; color: #475569; border-bottom: 2px solid #E2E8F0; font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
@@ -36,12 +91,13 @@ td { padding: 6px 10px; color: #64748B; border-bottom: 1px solid #F1F5F9; vertic
 td:first-child { font-weight: 600; color: #1E293B; }
 tr:nth-child(even) td { background: #F8FAFC; }
 .note { font-size: 10px; color: #94A3B8; margin-top: 10px; }
+.future { color: #94A3B8; font-style: italic; }
 </style>
 </head>
 <body>
 
 <h1>Anthropic — Full Organization Chart</h1>
-<p class="sub">Scroll left & right to see full chart · Based on public information · March 2026</p>
+<p class="sub">Based on publicly available information · March 2026</p>
 
 <div class="legend">
   <div class="legend-item"><div class="dot" style="background:#6B21A8"></div>Executive</div>
@@ -53,10 +109,13 @@ tr:nth-child(even) td { background: #F8FAFC; }
   <div class="legend-item"><div class="dot" style="background:#065F46"></div>Policy</div>
   <div class="legend-item"><div class="dot" style="background:#9D174D"></div>Research</div>
   <div class="legend-item"><div class="dot" style="background:#0F766E"></div>Security</div>
+  <div class="legend-item"><div class="dot" style="background:#38BDF8"></div>Future Hires</div>
 </div>
 
-<div class="chart">
-<div style="min-width:2000px; padding: 10px 40px;">
+<p class="scroll-hint">👈 Click and drag the chart to scroll left and right 👉</p>
+
+<div class="chart-outer" id="chartOuter">
+<div class="chart-inner">
 <div class="tree">
 <ul>
  <li>
@@ -103,7 +162,7 @@ tr:nth-child(even) td { background: #F8FAFC; }
     </ul>
    </li>
 
-   <!-- ===== PAUL SMITH (CCO) ===== -->
+   <!-- ===== PAUL SMITH ===== -->
    <li>
     <div class="conn"></div>
     <div class="box" style="background:#B45309"><div class="n">Paul Smith</div><div class="r">Chief Commercial Officer</div></div>
@@ -184,8 +243,7 @@ tr:nth-child(even) td { background: #F8FAFC; }
 </div>
 </div>
 
-<!-- SCROLL HINT -->
-<p style="text-align:center;font-size:11px;color:#94A3B8;margin-top:8px;">👈 Scroll left and right inside the chart above to see all branches 👉</p>
+<p class="scroll-hint">👆 You can also use the scrollbar at the bottom of the chart</p>
 
 <!-- TABLE -->
 <div class="tbl">
@@ -196,9 +254,9 @@ tr:nth-child(even) td { background: #F8FAFC; }
     </thead>
     <tbody>
       <tr><td>Intl GTM Onboarding Lead</td><td>London / Dublin 🇬🇧</td><td>Head of Intl Productivity</td><td>Regional onboarding, EMEA & APAC localisation</td></tr>
-      <tr><td>Regional Onboarding Specialist</td><td>EMEA (future) 🇬🇧</td><td>Intl GTM Onboarding Lead</td><td>Per-market onboarding delivery</td></tr>
-      <tr><td>APAC Onboarding Lead</td><td>APAC (future) 🌏</td><td>Intl GTM Onboarding Lead</td><td>Asia-Pacific market onboarding</td></tr>
-      <tr><td>Onboarding Content Manager</td><td>EMEA (future) 🇬🇧</td><td>Intl GTM Onboarding Lead</td><td>Localised training materials & playbooks</td></tr>
+      <tr><td class="future">Regional Onboarding Specialist</td><td class="future">EMEA (future)</td><td class="future">Intl GTM Onboarding Lead</td><td class="future">Per-market onboarding delivery</td></tr>
+      <tr><td class="future">APAC Onboarding Lead</td><td class="future">APAC (future)</td><td class="future">Intl GTM Onboarding Lead</td><td class="future">Asia-Pacific market onboarding</td></tr>
+      <tr><td class="future">Onboarding Content Manager</td><td class="future">EMEA (future)</td><td class="future">Intl GTM Onboarding Lead</td><td class="future">Localised training materials & playbooks</td></tr>
       <tr><td>GTM Enablement Onboarding PM</td><td>San Francisco 🇺🇸</td><td>Head of Intl Productivity</td><td>Global seller ramp & onboarding programs</td></tr>
       <tr><td>Customer Success Manager (CSM)</td><td>SF / NYC 🇺🇸</td><td>Head of Customer Success</td><td>Enterprise lifecycle, QBRs, adoption, expansion</td></tr>
       <tr><td>Technical Success Manager (TSM)</td><td>SF / NYC 🇺🇸</td><td>Head of Customer Success</td><td>API & Claude Code technical onboarding</td></tr>
@@ -207,21 +265,33 @@ tr:nth-child(even) td { background: #F8FAFC; }
       <tr><td>Commercial Counsel, EMEA</td><td>London 🇬🇧</td><td>General Counsel (Jeff Bleich)</td><td>GTC negotiation, EMEA contracts, AI regulation</td></tr>
     </tbody>
   </table>
-  <p class="note">⚠️ Rows marked "future" are projected hires based on Anthropic's growth trajectory — not confirmed public roles. Check <strong>anthropic.com/careers</strong> for current openings.</p>
+  <p class="note">⚠️ Rows in grey italic are projected future hires — not confirmed public roles. Check <strong>anthropic.com/careers</strong> for current openings.</p>
 </div>
 
 <script>
-// Make chart drag-scrollable with mouse
-const chart = document.querySelector('.chart');
+const el = document.getElementById('chartOuter');
 let isDown = false, startX, scrollLeft;
-chart.addEventListener('mousedown', e => { isDown = true; startX = e.pageX - chart.offsetLeft; scrollLeft = chart.scrollLeft; });
-chart.addEventListener('mouseleave', () => isDown = false);
-chart.addEventListener('mouseup', () => isDown = false);
-chart.addEventListener('mousemove', e => {
+el.addEventListener('mousedown', e => {
+  isDown = true;
+  el.style.cursor = 'grabbing';
+  startX = e.pageX - el.offsetLeft;
+  scrollLeft = el.scrollLeft;
+});
+document.addEventListener('mouseup', () => {
+  isDown = false;
+  el.style.cursor = 'grab';
+});
+el.addEventListener('mousemove', e => {
   if (!isDown) return;
   e.preventDefault();
-  const x = e.pageX - chart.offsetLeft;
-  chart.scrollLeft = scrollLeft - (x - startX) * 1.5;
+  const x = e.pageX - el.offsetLeft;
+  el.scrollLeft = scrollLeft - (x - startX) * 1.5;
+});
+
+// Auto-scroll to centre on load
+window.addEventListener('load', () => {
+  const maxScroll = el.scrollWidth - el.clientWidth;
+  el.scrollLeft = maxScroll / 2;
 });
 </script>
 
